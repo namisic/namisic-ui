@@ -2,7 +2,21 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+Steps to explore the product.
+
+### Install Node.js
+
+Go to the [Node.js page](https://nodejs.org/) and install it. We recommend install the LTS version.
+
+### Install dependencies
+
+Run the following command in the root folder:
+
+```
+npm i
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
