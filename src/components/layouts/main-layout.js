@@ -1,8 +1,8 @@
-import { MainNavbar } from '../navbars/MainNavbar';
+import { MainNavbar } from '../navbars/main-navbar';
 
 export const MainLayout = ({ children }) => {
   return (
-    <article className="flex flex-col md:flex-row md:min-h-screen">
+    <article className="md:flex md:flex-row md:min-h-screen">
       <aside className="md:min-h-screen">
         <MainNavbar />
       </aside>
