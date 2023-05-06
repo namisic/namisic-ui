@@ -1,17 +1,17 @@
-import { ApartmentOutlined, AuditOutlined } from '@ant-design/icons';
 import { Menu, MenuProps } from 'antd';
+import { ApartmentOutlined, AuditOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
 import { getMenuItem } from './navbar-utils';
 
 const menuItems: MenuProps['items'] = [
-  getMenuItem('Management', 'management', <ApartmentOutlined />, [
-    getMenuItem('Residents', 'residents', null),
+  getMenuItem('Administración', 'management', <ApartmentOutlined />, [
+    getMenuItem('Residentes', 'residents', null),
   ]),
 
   { type: 'divider' },
 
-  getMenuItem('Reports', 'reports', <AuditOutlined />, [
-    getMenuItem('I/O Vehicles', 'io-vehicles', null),
+  getMenuItem('Reportes', 'reports', <AuditOutlined />, [
+    getMenuItem('Entrada/Salida de Vehículos', 'io-vehicles', null),
   ]),
 ];
 
