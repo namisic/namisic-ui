@@ -4,25 +4,33 @@ import GenericPage from '@/components/generic-page';
 import { ColumnConfig } from '@/configs/shared-config';
 import useResidentsApi from '@/hooks/use-residents-api';
 import { ResidentTableDataType } from '@/types/resident-types';
+import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
 
 export const Residents = () => {
   const residentsApi = useResidentsApi();
   const [data, setData] = useState<ResidentTableDataType[]>([]);
+  const getData = useCallback(async () => {
+    const data = await residentsApi.getAll();
+    const residents = data.map<ResidentTableDataType>(
+      ({ id, name, apartmentNumber }) => {
+        return { id, name, apartmentNumber, key: id };
+      }
+    );
+    setData(residents);
+  }, []);
 
   useEffect(() => {
     getData();
-  }, []);
-
-  const getData = useCallback(async () => {
-    const data = await residentsApi.getAll();
-    setData(data);
   }, []);
 
   const columnsConfig: ColumnConfig<ResidentTableDataType>[] = [
     {
       title: 'Nombre',
       dataIndex: 'name',
+      render: (value, record, index) => (
+        <Link href={`residents/${record.id}`}>{value}</Link>
+      ),
     },
     {
       title: 'Número de Casa/Apartamento',

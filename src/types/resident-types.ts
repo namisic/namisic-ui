@@ -1,7 +1,9 @@
 import { TableDataType } from '@/types/table-data-type';
 
-export interface ResidentTableDataType extends TableDataType {
+export interface ResidentModel {
   id: 'string';
   name: 'string';
   apartmentNumber: 'string';
 }
+
+export interface ResidentTableDataType extends ResidentModel, TableDataType {}
