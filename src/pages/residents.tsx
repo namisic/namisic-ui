@@ -4,13 +4,14 @@ import GenericPage from '@/components/generic-page';
 import { ColumnConfig } from '@/configs/shared-config';
 import useResidentsApi from '@/hooks/use-residents-api';
 import { ResidentTableDataType } from '@/types/resident-types';
+import { notification } from 'antd';
 import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
 
 export const Residents = () => {
   const residentsApi = useResidentsApi();
   const [data, setData] = useState<ResidentTableDataType[]>([]);
-  const getData = useCallback(async () => {
+  const getResidents = useCallback(async () => {
     const data = await residentsApi.getAll();
     const residents = data.map<ResidentTableDataType>(
       ({ id, name, apartmentNumber }) => {
@@ -19,9 +20,20 @@ export const Residents = () => {
     );
     setData(residents);
   }, []);
+  const deleteResident = useCallback(
+    async ({ id, name }: ResidentTableDataType) => {
+      await residentsApi.deleteById(id);
+      await getResidents();
+      notification.success({
+        description: `El residente '${name}' fue eliminado.`,
+        message: 'Operación realizada correctamente',
+      });
+    },
+    []
+  );
 
   useEffect(() => {
-    getData();
+    getResidents();
   }, []);
 
   const columnsConfig: ColumnConfig<ResidentTableDataType>[] = [
@@ -46,6 +58,7 @@ export const Residents = () => {
               confirmationDescription="Por favor confirme que desea eliminar el residente."
               record={record}
               text="Eliminar"
+              onActionClick={deleteResident}
             />
           </ColumnActionSplitted>
         );
