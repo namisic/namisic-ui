@@ -19,6 +19,8 @@ export const ColumnActionDelete: React.FC<ColumnActionDeleteProps> = ({
 
   return (
     <Popconfirm
+      cancelText="Cancelar"
+      okText="Confirmar"
       description={confirmationDescription}
       title={confirmationTitle}
       onConfirm={onConfirm}

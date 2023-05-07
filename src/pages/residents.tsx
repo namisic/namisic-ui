@@ -34,9 +34,10 @@ export const Residents = () => {
         return (
           <ColumnActionSplitted>
             <ColumnActionDelete
-              confirmationTitle="Delete resident"
+              confirmationTitle="Eliminar residente"
+              confirmationDescription="Por favor confirme que desea eliminar el residente."
               record={record}
-              text="Delete"
+              text="Eliminar"
             />
           </ColumnActionSplitted>
         );
