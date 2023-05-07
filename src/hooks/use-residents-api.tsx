@@ -13,6 +13,7 @@ export const useResidentsApi = () => {
       const { data } = await axios.get<ResidentModel>(`${baseUrl}/${id}`);
       return data;
     },
+    deleteById: (id: string): Promise<void> => axios.delete(`${baseUrl}/${id}`),
   };
 };
 
