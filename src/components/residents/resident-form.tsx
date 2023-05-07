@@ -1,12 +1,8 @@
-import { Form } from "antd";
-import React, { Fragment } from "react";
+import { Form } from 'antd';
+import React, { Fragment } from 'react';
 
-export default function ResidentePersonalInformation({
-  resident,
-}: {
-  resident: any;
-}) {
-  const { name, numberapartment, numberparking, celphone } = resident;
+export default function ResidentForm({ resident }: { resident: any }) {
+  const { name, numberapartment } = resident;
   const componentDisabled = true;
 
   return (
@@ -19,12 +15,7 @@ export default function ResidentePersonalInformation({
         style={{ maxWidth: 600 }}
       >
         <Form.Item label="Nombre">{name}</Form.Item>
-
         <Form.Item label="Apartamento">{numberapartment}</Form.Item>
-
-        <Form.Item label="Telefono">{celphone}</Form.Item>
-
-        <Form.Item label="Numero Parqueadero">{numberparking}</Form.Item>
       </Form>
     </Fragment>
   );
