@@ -43,6 +43,7 @@ export default function ResidentForm({
       layout="horizontal"
       onFinish={onFinish}
       form={formInstance}
+      style={{ maxWidth: 600 }}
     >
       <Form.Item
         name="name"

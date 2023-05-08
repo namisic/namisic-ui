@@ -32,6 +32,7 @@ export const CreateResidentModal: React.FC<CreateResidentModalProps> = ({
     close();
   };
   const close = () => {
+    formInstance.resetFields();
     setIsOpen(false);
     if (typeof onClose === 'function') {
       onClose();
