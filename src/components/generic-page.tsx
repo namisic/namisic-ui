@@ -7,19 +7,19 @@ export interface GenericPageProps {
   columns: ColumnConfig<any>[];
   data?: object[];
   paginationConfig?: false | TablePaginationConfig;
-  onAddClick?: Promise<void>;
+  onAddClick?: () => void;
 }
 
-const GenericPage = ({
+const GenericPage: React.FC<GenericPageProps> = ({
   columns,
   data,
   paginationConfig = false,
   title,
   onAddClick,
-}: GenericPageProps) => {
+}) => {
   const onclick = async () => {
-    if (onAddClick !== undefined) {
-      await onAddClick;
+    if (typeof onAddClick === 'function') {
+      onAddClick();
     }
   };
 

@@ -6,4 +6,10 @@ export interface ResidentModel {
   apartmentNumber: 'string';
 }
 
+export interface CreateOrUpdateResidentModel {
+  id?: 'string';
+  name: 'string';
+  apartmentNumber: 'string';
+}
+
 export interface ResidentTableDataType extends ResidentModel, TableDataType {}

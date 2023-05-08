@@ -1,79 +1,78 @@
-import { ResidentModel } from "@/types/resident-types";
-import { Button, Form, Input } from "antd";
-import React, { Fragment, useEffect } from "react";
+import { CreateOrUpdateResidentModel } from '@/types/resident-types';
+import { Button, Form, FormInstance, Input } from 'antd';
+import React, { useEffect } from 'react';
 
 export interface ResidentFormProps {
-  resident?: ResidentModel;
-  onSaveClick?: (resident: ResidentModel) => Promise<void>;
-  action: string;
+  formInstance: FormInstance;
+  resident?: CreateOrUpdateResidentModel;
+  hideSaveButon?: true;
+  onSaveClick?: (resident: CreateOrUpdateResidentModel) => Promise<void>;
 }
 
 export default function ResidentForm({
+  formInstance,
+  hideSaveButon,
   resident,
   onSaveClick,
-  action,
 }: ResidentFormProps) {
-  const [form] = Form.useForm();
-  const componentDisabled = false;
-
-  const onclick = async (fieldsValue: any) => {
+  const onFinish = async (fieldsValue: any) => {
     if (onSaveClick !== undefined) {
-      if (resident != undefined) {
-        let residentchanged: ResidentModel = {
-          id: resident.id,
-          name: fieldsValue["name"],
-          apartmentNumber: fieldsValue["apartmentNumber"],
-        };
+      const residentchanged: CreateOrUpdateResidentModel = {
+        name: fieldsValue['name'],
+        apartmentNumber: fieldsValue['apartmentNumber'],
+      };
 
-        await onSaveClick(residentchanged);
+      if (resident != undefined) {
+        residentchanged.id = resident.id;
       }
+
+      await onSaveClick(residentchanged);
     }
   };
 
   useEffect(() => {
     if (resident !== undefined) {
-      form.setFieldsValue(resident);
+      formInstance.setFieldsValue(resident);
     }
   }, [resident]);
 
   return (
-    <Fragment>
-      <Form
-        labelCol={{ span: 10 }}
-        wrapperCol={{ span: 14 }}
-        layout="horizontal"
-        disabled={componentDisabled}
-        onFinish={onclick}
-        form={form}
-        style={{ maxWidth: 600 }}
+    <Form
+      labelCol={{ span: 12 }}
+      wrapperCol={{ span: 12 }}
+      layout="horizontal"
+      onFinish={onFinish}
+      form={formInstance}
+      style={{ maxWidth: 600 }}
+    >
+      <Form.Item
+        name="name"
+        label="Nombre"
+        rules={[
+          { required: true, message: 'El Nombre es obligatorio' },
+          { max: 200 },
+        ]}
       >
-        <Form.Item
-          name="name"
-          label="Nombre"
-          rules={[
-            { required: true, message: "El Nombre es Obligatorio" },
-            { max: 200 },
-          ]}
-        >
-          <Input placeholder="input placeholder" />
-        </Form.Item>
-        <Form.Item
-          name="apartmentNumber"
-          label="Número de Casa/Apartamento"
-          rules={[
-            {
-              required: true,
-              message: "Número de Casa/Apartamento es Obligatorio",
-            },
-            { max: 100 },
-          ]}
-        >
-          <Input placeholder="input placeholder" />
-        </Form.Item>
+        <Input placeholder="Ejemplo: Manuel" />
+      </Form.Item>
+      <Form.Item
+        name="apartmentNumber"
+        label="Número de Casa/Apartamento"
+        rules={[
+          {
+            required: true,
+            message: 'El Número de Casa/Apartamento es obligatorio',
+          },
+          { max: 100 },
+        ]}
+      >
+        <Input placeholder="Ejemplo: Casa 28C" />
+      </Form.Item>
+      {!hideSaveButon && (
         <Button type="primary" htmlType="submit">
-          {action}
+          Guardar
         </Button>
-      </Form>
-    </Fragment>
+      )}
+    </Form>
   );
 }
