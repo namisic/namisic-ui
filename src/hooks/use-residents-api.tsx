@@ -19,6 +19,7 @@ export const useResidentsApi = () => {
         residentmodel
       );
     },
+    deleteById: (id: string): Promise<void> => axios.delete(`${baseUrl}/${id}`),
   };
 };
 
