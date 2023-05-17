@@ -3,7 +3,7 @@ import { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import { ColumnConfig } from '@/configs/shared-config';
 
 export interface GenericPageProps {
-  title: string;
+  title?: string;
   columns: ColumnConfig<any>[];
   data?: object[];
   paginationConfig?: false | TablePaginationConfig;
@@ -25,7 +25,9 @@ const GenericPage: React.FC<GenericPageProps> = ({
 
   return (
     <article>
-      <h1 className="text-xl font-bold mb-4 mt-0 font-sans">{title}</h1>
+      {typeof title === 'string' && (
+        <h1 className="text-xl font-bold mb-4 mt-0 font-sans">{title}</h1>
+      )}
       <Button type="primary" onClick={onclick}>
         Agregar
       </Button>

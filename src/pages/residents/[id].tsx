@@ -1,66 +1,33 @@
-import ResidentForm from '@/components/residents/resident-form';
-import useResidentsApi from '@/hooks/use-residents-api';
-import {
-  CreateOrUpdateResidentModel,
-  ResidentModel,
-} from '@/types/resident-types';
-import { Tabs, TabsProps, notification, Form } from 'antd';
+import ResidentInformationTab from '@/components/residents/resident-information-tab';
+import VehiclesTab from '@/components/vehicles/vehicles-tab';
+import { Tabs, TabsProps } from 'antd';
 import { useRouter } from 'next/router';
-import React, { useCallback, useEffect, useState } from 'react';
 
-export function ResidentDetails() {
+export interface ResidentDetailsProps {
+  defaultActiveTab?: string;
+}
+
+export function ResidentDetails({
+  defaultActiveTab = '1',
+}: ResidentDetailsProps) {
   const router = useRouter();
   const { id } = router.query;
-  const residentsApi = useResidentsApi();
-  const [resident, setResident] = useState<ResidentModel | undefined>();
-  const [formInstance] = Form.useForm();
+  const residentId = id as string;
 
-  const getResident = useCallback(async () => {
-    const resident = await residentsApi.getById(id as string);
-    setResident(resident);
-  }, [id]);
+  let items: TabsProps['items'] = [
+    {
+      key: '1',
+      label: `Información`,
+      children: <ResidentInformationTab residentId={residentId} />,
+    },
+    {
+      key: '2',
+      label: `Vehículos`,
+      children: <VehiclesTab residentId={residentId} />,
+    },
+  ];
 
-  useEffect(() => {
-    getResident();
-  }, []);
-
-  const onChange = (key: string) => {
-    console.log(key);
-  };
-
-  let items: TabsProps['items'] = [];
-
-  if (resident !== undefined) {
-    const onSaveClick = async (
-      resident: CreateOrUpdateResidentModel
-    ): Promise<void> => {
-      await residentsApi.update(resident);
-      notification.success({
-        description: `El residente '${resident.name}' fue actualizado.`,
-        message: 'Operación realizada correctamente',
-      });
-    };
-
-    items = [
-      {
-        key: '1',
-        label: `Información`,
-        children: (
-          <ResidentForm
-            formInstance={formInstance}
-            resident={resident}
-            onSaveClick={onSaveClick}
-          />
-        ),
-      },
-      {
-        key: '2',
-        label: `Vehículos`,
-      },
-    ];
-  }
-
-  return <Tabs defaultActiveKey="1" items={items} onChange={onChange} />;
+  return <Tabs defaultActiveKey={defaultActiveTab} items={items} />;
 }
 
 export default ResidentDetails;
