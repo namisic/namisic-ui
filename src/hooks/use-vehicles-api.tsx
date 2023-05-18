@@ -1,5 +1,8 @@
 import axios from 'axios';
-import { VehicleModel } from '@/types/vehicle-types';
+import {
+  CreateOrUpdateVehicleModel,
+  VehicleModel,
+} from '@/types/vehicle-types';
 
 const baseUrl = `${process.env.NEXT_PUBLIC_API_URI}/api/vehicles`;
 
@@ -11,6 +14,8 @@ export const useVehiclesApi = () => {
       );
       return data;
     },
+    create: (vehicle: CreateOrUpdateVehicleModel): Promise<void> =>
+      axios.post(baseUrl, vehicle),
   };
 };
 

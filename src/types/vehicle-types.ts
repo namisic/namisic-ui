@@ -7,4 +7,9 @@ export interface VehicleModel {
   plateNumber: string;
 }
 
+export interface CreateOrUpdateVehicleModel extends VehicleModel {
+  residentId: string;
+  initialPlateNumber?: string;
+}
+
 export interface VehicleTableDataType extends VehicleModel, TableDataType {}
