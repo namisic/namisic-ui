@@ -36,7 +36,6 @@ const VehiclesTab: React.FC<VehiclesTabProps> = ({ residentId }) => {
     []
   );
 
- 
   const getVehicles = async () => {
     if (residentId !== undefined) {
       const data = await vehiclesApi.getAll(residentId);
@@ -68,7 +67,7 @@ const VehiclesTab: React.FC<VehiclesTabProps> = ({ residentId }) => {
       dataIndex: "type",
     },
     {
-      title: "Eliminar",
+     title: "Eliminar",
       render: (value, record, index) => {
         return (
           <ColumnActionSplitted>
