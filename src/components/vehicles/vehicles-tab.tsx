@@ -22,10 +22,8 @@ const VehiclesTab: React.FC<VehiclesTabProps> = ({ residentId }) => {
     async ({ plateNumber, type }: VehicleTableDataType) => {
       if (residentId != undefined) {
         await vehiclesApi.deleteById({
-          residentId,
-          plateNumber,
-          PlateNumber: "",
-          type: "car",
+          ResidentId : residentId,
+          PlateNumber: plateNumber,
         });
       }
 

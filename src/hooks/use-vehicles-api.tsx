@@ -18,7 +18,7 @@ export const useVehiclesApi = () => {
     create: (vehicle: CreateOrUpdateVehicleModel): Promise<void> =>
       axios.post(baseUrl, vehicle),
     deleteById: (vehicle: DeleteVehicleModel): Promise<void> =>
-      axios.delete(baseUrl, vehicle),
+      axios.delete(baseUrl, {data: vehicle}),
   };
 };
 
