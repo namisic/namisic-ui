@@ -36,18 +36,7 @@ const VehiclesTab: React.FC<VehiclesTabProps> = ({ residentId }) => {
     []
   );
 
-  const updateVehicle = useCallback(
-    async ({ plateNumber, type }: VehicleTableDataType) => {
-      setOpenModal(true);
-      await getVehicles();
-      notification.success({
-        description: `El vehiculo '${name}' fue actualizado.`,
-        message: "Operación realizada correctamente",
-      });
-    },
-    []
-  );
-
+ 
   const getVehicles = async () => {
     if (residentId !== undefined) {
       const data = await vehiclesApi.getAll(residentId);
@@ -77,22 +66,6 @@ const VehiclesTab: React.FC<VehiclesTabProps> = ({ residentId }) => {
     {
       title: "Tipo",
       dataIndex: "type",
-    },
-    {
-      title: "Editar",
-      render: (value, record, index) => {
-        return (
-          <ColumnActionSplitted>
-            <ColumnActionDelete
-              confirmationTitle="Editar Vehiculo"
-              confirmationDescription="Por favor confirme que desea Editar el Vehiculo  ."
-              record={record}
-              text="Editar"
-              onActionClick={updateVehicle}
-            />
-          </ColumnActionSplitted>
-        );
-      },
     },
     {
       title: "Eliminar",
