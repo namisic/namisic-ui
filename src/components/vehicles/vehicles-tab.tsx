@@ -67,7 +67,7 @@ const VehiclesTab: React.FC<VehiclesTabProps> = ({ residentId }) => {
       dataIndex: "type",
     },
     {
-     title: "Eliminar",
+     title: "Acciones",
       render: (value, record, index) => {
         return (
           <ColumnActionSplitted>
