@@ -36,17 +36,7 @@ const VehiclesTab: React.FC<VehiclesTabProps> = ({ residentId }) => {
     []
   );
 
-  const updateVehicle = useCallback(
-    async ({ plateNumber, type }: VehicleTableDataType) => {
-      setOpenModal(true);
-      await getVehicles();
-      notification.success({
-        description: `El vehiculo '${name}' fue actualizado.`,
-        message: "Operación realizada correctamente",
-      });
-    },
-    []
-  );
+
 
   const getVehicles = async () => {
     if (residentId !== undefined) {
@@ -88,7 +78,7 @@ const VehiclesTab: React.FC<VehiclesTabProps> = ({ residentId }) => {
               confirmationDescription="Por favor confirme que desea Editar el Vehiculo  ."
               record={record}
               text="Editar"
-              onActionClick={updateVehicle}
+            
             />
           </ColumnActionSplitted>
         );
