@@ -1,9 +1,9 @@
-import axios from "axios";
+import axios from 'axios';
 import {
   CreateOrUpdateVehicleModel,
   DeleteVehicleModel,
   VehicleModel,
-} from "@/types/vehicle-types";
+} from '@/types/vehicle-types';
 
 const baseUrl = `${process.env.NEXT_PUBLIC_API_URI}/api/vehicles`;
 
@@ -18,7 +18,7 @@ export const useVehiclesApi = () => {
     create: (vehicle: CreateOrUpdateVehicleModel): Promise<void> =>
       axios.post(baseUrl, vehicle),
     deleteById: (vehicle: DeleteVehicleModel): Promise<void> =>
-      axios.delete(baseUrl, {data: vehicle}),
+      axios.delete(baseUrl, { data: vehicle }),
   };
 };
 

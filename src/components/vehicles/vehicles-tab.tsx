@@ -1,13 +1,13 @@
-import { ColumnConfig } from "@/configs/shared-config";
-import useVehiclesApi from "@/hooks/use-vehicles-api";
-import { VehicleTableDataType } from "@/types/vehicle-types";
-import React, { useCallback, useEffect, useState } from "react";
+import { ColumnConfig } from '@/configs/shared-config';
+import useVehiclesApi from '@/hooks/use-vehicles-api';
+import { VehicleTableDataType } from '@/types/vehicle-types';
+import React, { useCallback, useEffect, useState } from 'react';
 
-import GenericPage from "../generic-page";
-import CreateVehicleModal from "./create-vehicle-modal";
-import ColumnActionSplitted from "../column-actions/column-actions-splitted";
-import ColumnActionDelete from "../column-actions/column-action-delete";
-import { notification } from "antd";
+import GenericPage from '../generic-page';
+import CreateVehicleModal from './create-vehicle-modal';
+import ColumnActionSplitted from '../column-actions/column-actions-splitted';
+import ColumnActionDelete from '../column-actions/column-action-delete';
+import { notification } from 'antd';
 
 export interface VehiclesTabProps {
   residentId?: string;
@@ -22,7 +22,7 @@ const VehiclesTab: React.FC<VehiclesTabProps> = ({ residentId }) => {
     async ({ plateNumber, type }: VehicleTableDataType) => {
       if (residentId != undefined) {
         await vehiclesApi.deleteById({
-          ResidentId : residentId,
+          ResidentId: residentId,
           PlateNumber: plateNumber,
         });
       }
@@ -30,7 +30,7 @@ const VehiclesTab: React.FC<VehiclesTabProps> = ({ residentId }) => {
       await getVehicles();
       notification.success({
         description: `El vehiculo '${plateNumber}' fue eliminado.`,
-        message: "Operación realizada correctamente",
+        message: 'Operación realizada correctamente',
       });
     },
     []
@@ -59,15 +59,15 @@ const VehiclesTab: React.FC<VehiclesTabProps> = ({ residentId }) => {
 
   const columnsConfig: ColumnConfig<VehicleTableDataType>[] = [
     {
-      title: "Placa",
-      dataIndex: "plateNumber",
+      title: 'Placa',
+      dataIndex: 'plateNumber',
     },
     {
-      title: "Tipo",
-      dataIndex: "type",
+      title: 'Tipo',
+      dataIndex: 'type',
     },
     {
-     title: "Acciones",
+      title: 'Acciones',
       render: (value, record, index) => {
         return (
           <ColumnActionSplitted>
