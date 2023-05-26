@@ -12,7 +12,7 @@ export interface CreateOrUpdateVehicleModel extends VehicleModel {
   initialPlateNumber?: string;
 }
 
-export interface DeleteVehicleModel  {
+export interface DeleteVehicleModel {
   ResidentId: string;
   PlateNumber: string;
 }
