@@ -29,7 +29,7 @@ const VehiclesTab: React.FC<VehiclesTabProps> = ({ residentId }) => {
 
       await getVehicles();
       notification.success({
-        description: `El vehiculo '${name}' fue eliminado.`,
+        description: `El vehiculo '${plateNumber}' fue eliminado.`,
         message: "Operación realizada correctamente",
       });
     },
