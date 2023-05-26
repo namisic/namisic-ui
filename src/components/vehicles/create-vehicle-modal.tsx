@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import dynamic from 'next/dynamic';
-import useVehiclesApi from '@/hooks/use-vehicles-api';
-import { Form, notification } from 'antd';
-import { CreateOrUpdateVehicleModel } from '@/types/vehicle-types';
-import VehicleForm from './vehicle-form';
+import React, { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+import useVehiclesApi from "@/hooks/use-vehicles-api";
+import { Form, notification } from "antd";
+import { CreateOrUpdateVehicleModel } from "@/types/vehicle-types";
+import VehicleForm from "./vehicle-form";
 
 // Loaded with SSR disabled because portals fail with rehydration.
 // See https://nextjs.org/docs/pages/building-your-application/optimizing/lazy-loading#with-no-ssr
-const DynamicModal = dynamic(() => import('antd/es/modal'), {
+const DynamicModal = dynamic(() => import("antd/es/modal"), {
   ssr: false,
 });
 
@@ -29,14 +29,14 @@ const CreateVehicleModal: React.FC<CreateVehicleModalProps> = ({
     await vehiclesApi.create(vehicle);
     notification.success({
       description: `El vehículo con placa '${vehicle.plateNumber}' fue creado.`,
-      message: 'Operación realizada correctamente',
+      message: "Operación realizada correctamente",
     });
     close();
   };
   const close = () => {
     formInstance.resetFields();
     setIsOpen(false);
-    if (typeof onClose === 'function') {
+    if (typeof onClose === "function") {
       onClose();
     }
   };
@@ -48,7 +48,7 @@ const CreateVehicleModal: React.FC<CreateVehicleModalProps> = ({
     setIsOpen(openModal);
 
     if (openModal) {
-      formInstance.setFieldValue('residentId', residentId);
+      formInstance.setFieldValue("residentId", residentId);
     }
   }, [openModal]);
 

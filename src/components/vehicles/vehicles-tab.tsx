@@ -1,10 +1,13 @@
-import { ColumnConfig } from '@/configs/shared-config';
-import useVehiclesApi from '@/hooks/use-vehicles-api';
-import { VehicleTableDataType } from '@/types/vehicle-types';
-import React, { useEffect, useState } from 'react';
+import { ColumnConfig } from "@/configs/shared-config";
+import useVehiclesApi from "@/hooks/use-vehicles-api";
+import { VehicleTableDataType } from "@/types/vehicle-types";
+import React, { useCallback, useEffect, useState } from "react";
 
-import GenericPage from '../generic-page';
-import CreateVehicleModal from './create-vehicle-modal';
+import GenericPage from "../generic-page";
+import CreateVehicleModal from "./create-vehicle-modal";
+import ColumnActionSplitted from "../column-actions/column-actions-splitted";
+import ColumnActionDelete from "../column-actions/column-action-delete";
+import { notification } from "antd";
 
 export interface VehiclesTabProps {
   residentId?: string;
@@ -14,6 +17,25 @@ const VehiclesTab: React.FC<VehiclesTabProps> = ({ residentId }) => {
   const vehiclesApi = useVehiclesApi();
   const [data, setData] = useState<VehicleTableDataType[]>([]);
   const [openModal, setOpenModal] = useState(false);
+
+  const deleteVehicle = useCallback(
+    async ({ plateNumber, type }: VehicleTableDataType) => {
+      if (residentId != undefined) {
+        await vehiclesApi.deleteById({
+          ResidentId : residentId,
+          PlateNumber: plateNumber,
+        });
+      }
+
+      await getVehicles();
+      notification.success({
+        description: `El vehiculo '${plateNumber}' fue eliminado.`,
+        message: "Operación realizada correctamente",
+      });
+    },
+    []
+  );
+
   const getVehicles = async () => {
     if (residentId !== undefined) {
       const data = await vehiclesApi.getAll(residentId);
@@ -37,12 +59,28 @@ const VehiclesTab: React.FC<VehiclesTabProps> = ({ residentId }) => {
 
   const columnsConfig: ColumnConfig<VehicleTableDataType>[] = [
     {
-      title: 'Placa',
-      dataIndex: 'plateNumber',
+      title: "Placa",
+      dataIndex: "plateNumber",
     },
     {
-      title: 'Tipo',
-      dataIndex: 'type',
+      title: "Tipo",
+      dataIndex: "type",
+    },
+    {
+     title: "Acciones",
+      render: (value, record, index) => {
+        return (
+          <ColumnActionSplitted>
+            <ColumnActionDelete
+              confirmationTitle="Eliminar Vehiculo"
+              confirmationDescription="Por favor confirme que desea eliminar el Vehiculo  ."
+              record={record}
+              text="Eliminar"
+              onActionClick={deleteVehicle}
+            />
+          </ColumnActionSplitted>
+        );
+      },
     },
   ];
 

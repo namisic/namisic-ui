@@ -1,13 +1,13 @@
-import ColumnActionDelete from '@/components/column-actions/column-action-delete';
-import ColumnActionSplitted from '@/components/column-actions/column-actions-splitted';
-import GenericPage from '@/components/generic-page';
-import CreateResidentModal from '@/components/residents/create-resident-modal';
-import { ColumnConfig } from '@/configs/shared-config';
-import useResidentsApi from '@/hooks/use-residents-api';
-import { ResidentTableDataType } from '@/types/resident-types';
-import { notification } from 'antd';
-import Link from 'next/link';
-import { useCallback, useEffect, useState } from 'react';
+import ColumnActionDelete from "@/components/column-actions/column-action-delete";
+import ColumnActionSplitted from "@/components/column-actions/column-actions-splitted";
+import GenericPage from "@/components/generic-page";
+import CreateResidentModal from "@/components/residents/create-resident-modal";
+import { ColumnConfig } from "@/configs/shared-config";
+import useResidentsApi from "@/hooks/use-residents-api";
+import { ResidentTableDataType } from "@/types/resident-types";
+import { notification } from "antd";
+import Link from "next/link";
+import { useCallback, useEffect, useState } from "react";
 
 export const Residents = () => {
   const residentsApi = useResidentsApi();
@@ -28,11 +28,12 @@ export const Residents = () => {
       await getResidents();
       notification.success({
         description: `El residente '${name}' fue eliminado.`,
-        message: 'Operación realizada correctamente',
+        message: "Operación realizada correctamente",
       });
     },
     []
   );
+
   const onAddClick = () => {
     setOpenModal(true);
   };
@@ -47,18 +48,18 @@ export const Residents = () => {
 
   const columnsConfig: ColumnConfig<ResidentTableDataType>[] = [
     {
-      title: 'Nombre',
-      dataIndex: 'name',
+      title: "Nombre",
+      dataIndex: "name",
       render: (value, record, index) => (
         <Link href={`residents/${record.id}`}>{value}</Link>
       ),
     },
     {
-      title: 'Número de Casa/Apartamento',
-      dataIndex: 'apartmentNumber',
+      title: "Número de Casa/Apartamento",
+      dataIndex: "apartmentNumber",
     },
     {
-      title: 'Acciones',
+      title: "Acciones",
       render: (value, record, index) => {
         return (
           <ColumnActionSplitted>
