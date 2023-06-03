@@ -1,3 +1,13 @@
+# Under construction
+
+Hello, this project is under construction, but if you want to contribute feel free to explore the issues and contact me.
+
+We are working on the [1.0.0-preview](https://github.com/lechediaz/condominiums-ui/tree/release/1.0.0-preview) branch.
+
+## More information
+
+Visit https://lechediaz.com/sistema-para-condominios/
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
