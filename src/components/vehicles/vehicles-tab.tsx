@@ -8,6 +8,7 @@ import CreateVehicleModal from './create-vehicle-modal';
 import ColumnActionSplitted from '../column-actions/column-actions-splitted';
 import ColumnActionDelete from '../column-actions/column-action-delete';
 import { notification } from 'antd';
+import { getVehicleTypeName } from '@/utils/vehicles/getVehicleTypeName';
 
 export interface VehiclesTabProps {
   residentId?: string;
@@ -65,6 +66,7 @@ const VehiclesTab: React.FC<VehiclesTabProps> = ({ residentId }) => {
     {
       title: 'Tipo',
       dataIndex: 'type',
+      render: (value: string) => getVehicleTypeName(value),
     },
     {
       title: 'Acciones',
