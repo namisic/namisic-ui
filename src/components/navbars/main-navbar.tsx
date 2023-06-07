@@ -1,8 +1,8 @@
 import { Menu, MenuProps } from 'antd';
 import {
   ApartmentOutlined,
-  AuditOutlined,
   MenuOutlined,
+  SafetyOutlined,
 } from '@ant-design/icons';
 import { useRouter } from 'next/router';
 import { getMenuItem } from './navbar-utils';
@@ -22,7 +22,7 @@ export const MainNavbar = () => {
       getMenuItem('Residentes', 'residents', null),
     ]),
     { type: 'divider' },
-    getMenuItem('Reportes', 'reports', <AuditOutlined />, [
+    getMenuItem('Seguridad', 'security', <SafetyOutlined />, [
       getMenuItem('Entrada/Salida de Vehículos', 'io-vehicles', null),
     ]),
   ];
