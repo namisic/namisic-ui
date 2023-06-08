@@ -1,26 +1,29 @@
-import axios from 'axios';
 import {
   CreateOrUpdateResidentModel,
   ResidentModel,
 } from '@/types/resident-types';
+import { getAxiosInstance } from '@/utils/axios';
 
 const baseUrl = `${process.env.NEXT_PUBLIC_API_URI}/api/residents`;
 
 export const useResidentsApi = () => {
   return {
     getAll: async (): Promise<ResidentModel[]> => {
-      const { data } = await axios.get<ResidentModel[]>(baseUrl);
+      const { data } = await getAxiosInstance().get<ResidentModel[]>(baseUrl);
       return data;
     },
     getById: async (id: string): Promise<ResidentModel> => {
-      const { data } = await axios.get<ResidentModel>(`${baseUrl}/${id}`);
+      const { data } = await getAxiosInstance().get<ResidentModel>(
+        `${baseUrl}/${id}`
+      );
       return data;
     },
     create: (resident: CreateOrUpdateResidentModel): Promise<void> =>
-      axios.post(baseUrl, resident),
+      getAxiosInstance().post(baseUrl, resident),
     update: (residentmodel: CreateOrUpdateResidentModel): Promise<void> =>
-      axios.put(`${baseUrl}/${residentmodel.id}`, residentmodel),
-    deleteById: (id: string): Promise<void> => axios.delete(`${baseUrl}/${id}`),
+      getAxiosInstance().put(`${baseUrl}/${residentmodel.id}`, residentmodel),
+    deleteById: (id: string): Promise<void> =>
+      getAxiosInstance().delete(`${baseUrl}/${id}`),
   };
 };
 
