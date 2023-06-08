@@ -2,14 +2,17 @@ import { Menu, MenuProps } from 'antd';
 import {
   ApartmentOutlined,
   MenuOutlined,
+  PoweroffOutlined,
   SafetyOutlined,
 } from '@ant-design/icons';
 import { useRouter } from 'next/router';
 import { getMenuItem } from './navbar-utils';
 import { useState } from 'react';
+import { signOut, useSession } from 'next-auth/react';
 
 export const MainNavbar = () => {
   const router = useRouter();
+  const session = useSession();
   const [collapsed, setCollapsed] = useState(false);
 
   const menuItems: MenuProps['items'] = [
@@ -27,12 +30,25 @@ export const MainNavbar = () => {
     ]),
   ];
 
+  if (session.status === 'authenticated') {
+    menuItems.push(
+      getMenuItem('Cerrar cesión', 'sign-out', <PoweroffOutlined />)
+    );
+  }
+
   // Navigate to page.
   const onClick: MenuProps['onClick'] = (e) => {
-    if (e.key === 'collapser') {
-      setCollapsed((currentValue) => !currentValue);
-    } else {
-      router.push(`/${e.key}`);
+    switch (e.key) {
+      case 'collapser':
+        setCollapsed((currentValue) => !currentValue);
+        break;
+      case 'sign-out':
+        signOut();
+        break;
+
+      default:
+        router.push(`/${e.key}`);
+        break;
     }
   };
 

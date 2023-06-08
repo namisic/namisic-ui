@@ -24,12 +24,14 @@ export const CreateResidentModal: React.FC<CreateResidentModalProps> = ({
   const [formInstance] = Form.useForm();
   const [isOpen, setIsOpen] = useState(false);
   const onSaveClick = async (resident: CreateOrUpdateResidentModel) => {
-    await residentsApi.create(resident);
-    notification.success({
-      description: `El residente '${resident.name}' fue creado.`,
-      message: 'Operación realizada correctamente',
-    });
-    close();
+    try {
+      await residentsApi.create(resident);
+      notification.success({
+        description: `El residente '${resident.name}' fue creado.`,
+        message: 'Operación realizada correctamente',
+      });
+      close();
+    } catch (error) {}
   };
   const close = () => {
     formInstance.resetFields();
@@ -52,7 +54,6 @@ export const CreateResidentModal: React.FC<CreateResidentModalProps> = ({
       open={isOpen}
       cancelText="Cancelar"
       okText="Guardar"
-      afterClose={close}
       onOk={onOk}
       onCancel={close}
     >

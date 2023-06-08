@@ -3,33 +3,39 @@ import ColumnActionSplitted from '@/components/column-actions/column-actions-spl
 import GenericPage from '@/components/generic-page';
 import CreateResidentModal from '@/components/residents/create-resident-modal';
 import { ColumnConfig } from '@/configs/shared-config';
+import { RoleName } from '@/constants/auth';
+import Authorize from '@/components/auth/authorize';
 import useResidentsApi from '@/hooks/use-residents-api';
 import { ResidentTableDataType } from '@/types/resident-types';
 import { notification } from 'antd';
 import Link from 'next/link';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 export const Residents = () => {
   const residentsApi = useResidentsApi();
   const [data, setData] = useState<ResidentTableDataType[]>([]);
   const [openModal, setOpenModal] = useState(false);
-  const getResidents = useCallback(async () => {
-    const data = await residentsApi.getAll();
-    const residents = data.map<ResidentTableDataType>(
-      ({ id, name, apartmentNumber }) => {
-        return { id, name, apartmentNumber, key: id };
-      }
-    );
-    setData(residents);
-  }, []);
+  const getResidents = async () => {
+    try {
+      const data = await residentsApi.getAll();
+      const residents = data.map<ResidentTableDataType>(
+        ({ id, name, apartmentNumber }) => {
+          return { id, name, apartmentNumber, key: id };
+        }
+      );
+      setData(residents);
+    } catch (error) {}
+  };
   const deleteResident = useCallback(
     async ({ id, name }: ResidentTableDataType) => {
-      await residentsApi.deleteById(id);
-      await getResidents();
-      notification.success({
-        description: `El residente '${name}' fue eliminado.`,
-        message: 'Operación realizada correctamente',
-      });
+      try {
+        await residentsApi.deleteById(id);
+        notification.success({
+          description: `El residente '${name}' fue eliminado.`,
+          message: 'Operación realizada correctamente',
+        });
+        await getResidents();
+      } catch (error) {}
     },
     []
   );
@@ -42,9 +48,9 @@ export const Residents = () => {
     getResidents();
   };
 
-  useEffect(() => {
+  const onAuthorized = () => {
     getResidents();
-  }, []);
+  };
 
   const columnsConfig: ColumnConfig<ResidentTableDataType>[] = [
     {
@@ -77,7 +83,11 @@ export const Residents = () => {
   ];
 
   return (
-    <>
+    <Authorize
+      allowedRoles={RoleName.Administrator}
+      redirectWhenUnauthorized
+      onAuthorized={onAuthorized}
+    >
       <CreateResidentModal openModal={openModal} onClose={onCloseModal} />
       <GenericPage
         columns={columnsConfig}
@@ -85,7 +95,7 @@ export const Residents = () => {
         title="Residentes"
         onAddClick={onAddClick}
       />
-    </>
+    </Authorize>
   );
 };
 

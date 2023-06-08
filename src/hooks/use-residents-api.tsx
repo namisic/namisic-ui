@@ -2,11 +2,13 @@ import {
   CreateOrUpdateResidentModel,
   ResidentModel,
 } from '@/types/resident-types';
-import { getAxiosInstance } from '@/utils/axios';
+import { useAxios } from '@/hooks/use-axios';
 
 const baseUrl = `${process.env.NEXT_PUBLIC_API_URI}/api/residents`;
 
 export const useResidentsApi = () => {
+  const { getAxiosInstance } = useAxios();
+
   return {
     getAll: async (): Promise<ResidentModel[]> => {
       const { data } = await getAxiosInstance().get<ResidentModel[]>(baseUrl);

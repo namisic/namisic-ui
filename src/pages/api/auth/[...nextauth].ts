@@ -1,4 +1,6 @@
-import { AuthOptions, Profile } from 'next-auth';
+import { SimpleIdServerProvider } from '@/constants/auth';
+import axios from 'axios';
+import { AuthOptions } from 'next-auth';
 import NextAuth from 'next-auth/next';
 
 export const authOptions: AuthOptions = {
@@ -12,19 +14,36 @@ export const authOptions: AuthOptions = {
     },
     async session({ session, token, user }) {
       // Send properties to the client, like an access_token from a provider.
-      session.accessToken = token.accessToken as string;
+      session.accessToken = token.accessToken;
+
+      try {
+        const { data: userinfo } = await axios.get(
+          `${process.env.SIDSERVER_URL}/userinfo`,
+          {
+            headers: {
+              Authorization: `Bearer ${session.accessToken}`,
+            },
+          }
+        );
+        session.user = userinfo;
+      } catch (error) {}
+
       return session;
     },
   },
   providers: [
     {
-      id: 'simpleidserver',
+      id: SimpleIdServerProvider,
       name: 'SimpleIdServer',
       type: 'oauth',
-      wellKnown: `${process.env.NEXTAUTH_URL}/.well-known/openid-configuration`,
-      authorization: { params: { scope: process.env.SCOPE } },
-      idToken: false,
+      clientId: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      wellKnown: `${process.env.SIDSERVER_URL}/.well-known/openid-configuration`,
+      authorization: {
+        params: { scope: process.env.SCOPE },
+      },
       checks: ['pkce', 'state'],
+      idToken: true,
       profile(profile) {
         return {
           id: profile.sub,
