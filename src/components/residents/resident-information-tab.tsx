@@ -26,11 +26,13 @@ const ResidentInformationTab: React.FC<ResidentInformationTabProps> = ({
   const onSaveClick = async (
     resident: CreateOrUpdateResidentModel
   ): Promise<void> => {
-    await residentsApi.update(resident);
-    notification.success({
-      description: `El residente '${resident.name}' fue actualizado.`,
-      message: 'Operación realizada correctamente',
-    });
+    try {
+      await residentsApi.update(resident);
+      notification.success({
+        description: `El residente '${resident.name}' fue actualizado.`,
+        message: 'Operación realizada correctamente',
+      });
+    } catch (error) {}
   };
 
   useEffect(() => {

@@ -3,11 +3,13 @@ import {
   DeleteVehicleModel,
   VehicleModel,
 } from '@/types/vehicle-types';
-import { getAxiosInstance } from '@/utils/axios';
+import { useAxios } from '@/hooks/use-axios';
 
 const baseUrl = `${process.env.NEXT_PUBLIC_API_URI}/api/vehicles`;
 
 export const useVehiclesApi = () => {
+  const { getAxiosInstance } = useAxios();
+
   return {
     getAll: async (residentId: string): Promise<VehicleModel[]> => {
       const { data } = await getAxiosInstance().get<VehicleModel[]>(

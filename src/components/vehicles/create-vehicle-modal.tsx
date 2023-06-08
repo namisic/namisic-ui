@@ -26,12 +26,14 @@ const CreateVehicleModal: React.FC<CreateVehicleModalProps> = ({
   const [formInstance] = Form.useForm();
   const [isOpen, setIsOpen] = useState(false);
   const onSaveClick = async (vehicle: CreateOrUpdateVehicleModel) => {
-    await vehiclesApi.create(vehicle);
-    notification.success({
-      description: `El vehículo con placa '${vehicle.plateNumber}' fue creado.`,
-      message: 'Operación realizada correctamente',
-    });
-    close();
+    try {
+      await vehiclesApi.create(vehicle);
+      notification.success({
+        description: `El vehículo con placa '${vehicle.plateNumber}' fue creado.`,
+        message: 'Operación realizada correctamente',
+      });
+      close();
+    } catch (error) {}
   };
   const close = () => {
     formInstance.resetFields();
