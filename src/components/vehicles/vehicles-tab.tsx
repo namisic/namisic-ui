@@ -8,7 +8,7 @@ import CreateVehicleModal from './create-vehicle-modal';
 import ColumnActionSplitted from '../column-actions/column-actions-splitted';
 import ColumnActionDelete from '../column-actions/column-action-delete';
 import { notification } from 'antd';
-import { getVehicleTypeName } from '@/utils/vehicles/getVehicleTypeName';
+import { getVehicleTypeName } from '@/utils/get-vehicle-type-name';
 
 export interface VehiclesTabProps {
   residentId?: string;

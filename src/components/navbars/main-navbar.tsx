@@ -26,13 +26,13 @@ export const MainNavbar = () => {
     ]),
     { type: 'divider' },
     getMenuItem('Seguridad', 'security', <SafetyOutlined />, [
-      getMenuItem('Entrada/Salida de Vehículos', 'io-vehicles', null),
+      getMenuItem('Entrada/Salida de Vehículos', 'vehicle-entry-exit', null),
     ]),
   ];
 
   if (session.status === 'authenticated') {
     menuItems.push(
-      getMenuItem('Cerrar cesión', 'sign-out', <PoweroffOutlined />)
+      getMenuItem('Cerrar Sesión', 'signout', <PoweroffOutlined />)
     );
   }
 
@@ -42,7 +42,7 @@ export const MainNavbar = () => {
       case 'collapser':
         setCollapsed((currentValue) => !currentValue);
         break;
-      case 'sign-out':
+      case 'signout':
         signOut();
         break;
 
