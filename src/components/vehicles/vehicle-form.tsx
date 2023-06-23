@@ -17,6 +17,7 @@ const VehicleForm: React.FC<VehicleFormProps> = ({
   vehicle,
 }) => {
   const onFinish = async (fieldsValue: any) => {
+    
     if (onSaveClick !== undefined) {
       const vehicleToSave: CreateOrUpdateVehicleModel = {
         ...fieldsValue,
@@ -45,13 +46,15 @@ const VehicleForm: React.FC<VehicleFormProps> = ({
       form={formInstance}
       style={{ maxWidth: 600 }}
     >
-      <Form.Item
-        hidden
-        name="residentId"
-        rules={[{ required: true, message: 'La Placa es obligatoria' }]}
-      >
-        <Input />
-      </Form.Item>
+      
+        <Form.Item
+          hidden
+          name="residentId"
+          rules={[{ required: true, message: 'La Placa es obligatoria' }]}
+        >
+          <Input />
+        </Form.Item>
+      
       <Form.Item
         name="plateNumber"
         label="Placa"
