@@ -16,6 +16,7 @@ export default function ResidentForm({
   onSaveClick,
 }: ResidentFormProps) {
   const onFinish = async (fieldsValue: any) => {
+  
     if (onSaveClick !== undefined) {
       const residentchanged: CreateOrUpdateResidentModel = {
         name: fieldsValue['name'],

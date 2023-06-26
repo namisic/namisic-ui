@@ -9,6 +9,7 @@ import ColumnActionSplitted from '../column-actions/column-actions-splitted';
 import ColumnActionDelete from '../column-actions/column-action-delete';
 import { notification } from 'antd';
 import { getVehicleTypeName } from '@/utils/vehicles/getVehicleTypeName';
+import Link from 'next/link';
 
 export interface VehiclesTabProps {
   residentId?: string;
@@ -62,6 +63,9 @@ const VehiclesTab: React.FC<VehiclesTabProps> = ({ residentId }) => {
     {
       title: 'Placa',
       dataIndex: 'plateNumber',
+      render: (value, record, index) => (
+        <Link href={`/residents/${ residentId }/vehicles/${record.plateNumber}`}>{value}</Link>
+      ),
     },
     {
       title: 'Tipo',
