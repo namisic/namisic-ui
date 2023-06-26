@@ -4,9 +4,10 @@ export interface VehicleEntryExitTableModel {
   id: string;
   plateNumber: string;
   type: string;
-  remarks: string;
+  remarks: string | null;
   creationDate: Date | string;
   createdBy: string;
+  vehicleType: string | null;
 }
 
 export interface CreateVehicleEntryExitModel {

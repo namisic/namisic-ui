@@ -58,7 +58,7 @@ export const MainNavbar = () => {
       defaultSelectedKeys={['1']}
       defaultOpenKeys={['sub1']}
       inlineCollapsed={collapsed}
-      mode="inline"
+      mode="vertical"
       items={menuItems}
       theme="dark"
     />
