@@ -17,12 +17,14 @@ const ResidentInformationTab: React.FC<ResidentInformationTabProps> = ({
   const residentsApi = useResidentsApi();
   const [resident, setResident] = useState<ResidentModel | undefined>();
   const [formInstance] = Form.useForm();
+
   const getResident = async () => {
     if (residentId !== undefined) {
       const resident = await residentsApi.getById(residentId as string);
       setResident(resident);
     }
   };
+  
   const onSaveClick = async (
     resident: CreateOrUpdateResidentModel
   ): Promise<void> => {
