@@ -1,4 +1,5 @@
 import { TableDataType } from './table-data-type';
+import { Dayjs } from 'dayjs';
 
 export interface VehicleEntryExitTableModel {
   id: string;
@@ -17,11 +18,12 @@ export interface CreateVehicleEntryExitModel {
 }
 
 export interface FilterVehicleEntryExitModel {
-  plateNumber: string;
-  type: string;
-  beginCreationDate: Date | string;
-  endCreationDate: Date | string;
-  createdBy: string;
+  plateNumber?: string;
+  type?: string;
+  vehicleType?: string;
+  beginCreationDate?: Dayjs | string;
+  endCreationDate?: Dayjs | string;
+  createdBy?: string;
   currentUser: boolean;
 }
 
