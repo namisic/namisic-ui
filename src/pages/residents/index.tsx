@@ -11,7 +11,7 @@ import { notification } from 'antd';
 import Link from 'next/link';
 import { useCallback, useState } from 'react';
 
-export const Residents = () => {
+export const ResidentsPage = () => {
   const residentsApi = useResidentsApi();
   const [data, setData] = useState<ResidentTableDataType[]>([]);
   const [openModal, setOpenModal] = useState(false);
@@ -99,4 +99,4 @@ export const Residents = () => {
   );
 };
 
-export default Residents;
+export default ResidentsPage;
