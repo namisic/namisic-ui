@@ -3,11 +3,13 @@ import {
   ResidentModel,
 } from '@/types/resident-types';
 import { useAxios } from '@/hooks/use-axios';
-
-const baseUrl = `${process.env.NEXT_PUBLIC_API_URI}/api/residents`;
+import { useContext } from 'react';
+import { ApiConfigContext } from '@/contexts/api-config-context';
 
 export const useResidentsApi = () => {
   const { getAxiosInstance } = useAxios();
+  const apiConfig = useContext(ApiConfigContext);
+  const baseUrl = `${apiConfig.config?.ApiUri}/api/residents`;
 
   return {
     getAll: async (): Promise<ResidentModel[]> => {

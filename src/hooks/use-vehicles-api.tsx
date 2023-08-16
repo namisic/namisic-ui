@@ -4,11 +4,13 @@ import {
   VehicleModel,
 } from '@/types/vehicle-types';
 import { useAxios } from '@/hooks/use-axios';
-
-const baseUrl = `${process.env.NEXT_PUBLIC_API_URI}/api/vehicles`;
+import { useContext } from 'react';
+import { ApiConfigContext } from '@/contexts/api-config-context';
 
 export const useVehiclesApi = () => {
   const { getAxiosInstance } = useAxios();
+  const apiConfig = useContext(ApiConfigContext);
+  const baseUrl = `${apiConfig.config?.ApiUri}/api/vehicles`;
 
   return {
     getAll: async (residentId: string): Promise<VehicleModel[]> => {

@@ -1,15 +1,16 @@
-import { ResidentModel } from '@/types/resident-types';
+import { ApiConfigContext } from '@/contexts/api-config-context';
 import { useAxios } from '@/hooks/use-axios';
 import {
   CreateVehicleEntryExitModel,
   FilterVehicleEntryExitModel,
   VehicleEntryExitTableModel,
 } from '@/types/vehicle-entry-exit';
-
-const baseUrl = `${process.env.NEXT_PUBLIC_API_URI}/api/VehicleEntryExit`;
+import { useContext } from 'react';
 
 export const useVehicleEntryExitApi = () => {
   const { getAxiosInstance } = useAxios();
+  const apiConfig = useContext(ApiConfigContext);
+  const baseUrl = `${apiConfig.config?.ApiUri}/api/VehicleEntryExit`;
 
   return {
     getFiltered: async (

@@ -1,7 +1,8 @@
 import { SimpleIdServerProvider } from '@/constants/auth';
+import { ApiConfigContext } from '@/contexts/api-config-context';
 import { useSession, signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 interface AuthorizeProps extends React.PropsWithChildren {
   allowedRoles?: string | string[];
@@ -17,6 +18,7 @@ const Authorize: React.FC<AuthorizeProps> = ({
 }) => {
   const router = useRouter();
   const sesion = useSession();
+  const { config, configRequested } = useContext(ApiConfigContext);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAuthorized, setIsAuthorized] = useState(false);
 
@@ -29,19 +31,22 @@ const Authorize: React.FC<AuthorizeProps> = ({
   }, [sesion]);
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && configRequested) {
       let isAuthorized = true;
 
       if (allowedRoles !== undefined) {
         let hasRole = false;
+        const sessionRoles = sesion.data?.user.role;
 
-        if (typeof sesion.data?.user.role === 'string') {
-          hasRole = allowedRoles.includes(sesion.data?.user.role);
-        } else {
-          hasRole =
-            sesion.data?.user.role.find((role) =>
-              allowedRoles.includes(role)
-            ) !== undefined;
+        if (sessionRoles !== undefined) {
+          if (typeof allowedRoles === 'string') {
+            hasRole = sessionRoles.includes(config!.RoleNames![allowedRoles]);
+          } else if (Array.isArray(sessionRoles)) {
+            hasRole =
+              allowedRoles.find((roleName) =>
+                sessionRoles.includes(config!.RoleNames![roleName])
+              ) !== undefined;
+          }
         }
 
         if (!hasRole && redirectWhenUnauthorized) {
@@ -53,7 +58,7 @@ const Authorize: React.FC<AuthorizeProps> = ({
 
       setIsAuthorized(isAuthorized);
     }
-  }, [isAuthenticated, allowedRoles]);
+  }, [isAuthenticated, allowedRoles, configRequested]);
 
   useEffect(() => {
     if (isAuthorized && onAuthorized !== undefined) {

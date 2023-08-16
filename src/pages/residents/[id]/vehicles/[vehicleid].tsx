@@ -1,19 +1,15 @@
-import ResidentInformationTab from '@/components/residents/resident-information-tab';
+import Authorize from '@/components/auth/authorize';
 import VehicleForm from '@/components/vehicles/vehicle-form';
+import { RoleName } from '@/constants/auth';
 import useVehiclesApi from '@/hooks/use-vehicles-api';
-import { CreateOrUpdateVehicleModel, VehicleModel } from '@/types/vehicle-types';
-import { Form, Tabs, TabsProps, notification } from 'antd';
+import { CreateOrUpdateVehicleModel } from '@/types/vehicle-types';
+import { Form, notification } from 'antd';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
-export interface VehicleDetailsProps {
-}
+export interface VehicleDetailsProps {}
 
-
-export function VehicleDetails({
-  
-}: VehicleDetailsProps) {
-  
+export function VehicleDetails({}: VehicleDetailsProps) {
   const vehiclesApi = useVehiclesApi();
   const router = useRouter();
   const [formInstance] = Form.useForm();
@@ -23,9 +19,7 @@ export function VehicleDetails({
 
   useEffect(() => {
     getVehicle();
-    
-  },[]);
-
+  }, []);
 
   const getVehicle = async () => {
     if (plate !== undefined) {
@@ -35,7 +29,6 @@ export function VehicleDetails({
     }
   };
 
-
   const onSaveClick = async (vehicle: CreateOrUpdateVehicleModel) => {
     try {
       vehicle.initialPlateNumber = plate;
@@ -44,20 +37,19 @@ export function VehicleDetails({
         description: `El vehículo con placa '${vehicle.plateNumber}' fue actualizado.`,
         message: 'Operación realizada correctamente',
       });
-      
     } catch (error) {}
   };
- 
-  
+
   return (
-    
-  <VehicleForm
-    formInstance={formInstance}
-    onSaveClick={onSaveClick}
-    vehicle={ data}
-    hideSaveButon = { undefined}
-  />
- );
+    <Authorize allowedRoles={RoleName.Administrator} redirectWhenUnauthorized>
+      <VehicleForm
+        formInstance={formInstance}
+        onSaveClick={onSaveClick}
+        vehicle={data}
+        hideSaveButon={undefined}
+      />
+    </Authorize>
+  );
 }
 
 export default VehicleDetails;

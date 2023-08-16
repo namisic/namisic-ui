@@ -1,5 +1,7 @@
+import Authorize from '@/components/auth/authorize';
 import ResidentInformationTab from '@/components/residents/resident-information-tab';
 import VehiclesTab from '@/components/vehicles/vehicles-tab';
+import { RoleName } from '@/constants/auth';
 import { Tabs, TabsProps } from 'antd';
 import { useRouter } from 'next/router';
 
@@ -27,7 +29,11 @@ export function ResidentDetails({
     },
   ];
 
-  return <Tabs defaultActiveKey={defaultActiveTab} items={items} />;
+  return (
+    <Authorize allowedRoles={RoleName.Administrator} redirectWhenUnauthorized>
+      <Tabs defaultActiveKey={defaultActiveTab} items={items} />
+    </Authorize>
+  );
 }
 
 export default ResidentDetails;
