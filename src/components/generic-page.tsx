@@ -1,4 +1,4 @@
-import { Button, Table } from 'antd';
+import { Button, Space, Table } from 'antd';
 import { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import { ColumnConfig } from '@/configs/shared-config';
 import { ReactNode } from 'react';
@@ -11,6 +11,7 @@ export interface GenericPageProps {
   customTopButtons?: ReactNode;
   loading?: boolean;
   onAddClick?: () => void;
+  onFilterClick?: () => void;
 }
 
 const GenericPage: React.FC<GenericPageProps> = ({
@@ -21,23 +22,25 @@ const GenericPage: React.FC<GenericPageProps> = ({
   title,
   loading,
   onAddClick,
+  onFilterClick,
 }) => {
-  let topButtons: ReactNode = (
-    <Button type="primary" onClick={onAddClick}>
-      Nuevo registro
-    </Button>
-  );
-
-  if (customTopButtons !== undefined) {
-    topButtons = customTopButtons;
-  }
-
   return (
     <article>
       {typeof title === 'string' && (
         <h1 className="text-xl font-bold mb-4 mt-0 font-sans">{title}</h1>
       )}
-      {topButtons}
+      {customTopButtons !== undefined ? (
+        customTopButtons
+      ) : (
+        <Space wrap>
+          <Button type="primary" onClick={onAddClick}>
+            Nuevo registro
+          </Button>
+          <Button type="default" onClick={onFilterClick}>
+            Mostrar filtros
+          </Button>
+        </Space>
+      )}
       <Table
         className="mt-4"
         columns={columns as ColumnsType<any>}

@@ -1,5 +1,6 @@
 import {
   CreateOrUpdateResidentModel,
+  GetResidentsQuery,
   ResidentModel,
 } from '@/types/resident-types';
 import { useAxios } from '@/hooks/use-axios';
@@ -12,8 +13,10 @@ export const useResidentsApi = () => {
   const baseUrl = `${apiConfig.config?.ApiUri}/api/residents`;
 
   return {
-    getAll: async (): Promise<ResidentModel[]> => {
-      const { data } = await getAxiosInstance().get<ResidentModel[]>(baseUrl);
+    getAll: async (filters?: GetResidentsQuery): Promise<ResidentModel[]> => {
+      const { data } = await getAxiosInstance().get<ResidentModel[]>(baseUrl, {
+        params: filters,
+      });
       return data;
     },
     getById: async (id: string): Promise<ResidentModel> => {

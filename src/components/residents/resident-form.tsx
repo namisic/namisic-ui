@@ -1,5 +1,7 @@
+import { DocumentTypesOptions } from '@/constants/common-constants';
+import { ResidentTypesOptions } from '@/constants/residents-constants';
 import { CreateOrUpdateResidentModel } from '@/types/resident-types';
-import { Button, Form, FormInstance, Input } from 'antd';
+import { Button, Form, FormInstance, Input, InputNumber, Select } from 'antd';
 import React, { useEffect } from 'react';
 
 export interface ResidentFormProps {
@@ -16,12 +18,16 @@ export default function ResidentForm({
   onSaveClick,
 }: ResidentFormProps) {
   const onFinish = async (fieldsValue: any) => {
-  
     if (onSaveClick !== undefined) {
-      const residentchanged: CreateOrUpdateResidentModel = {
-        name: fieldsValue['name'],
-        apartmentNumber: fieldsValue['apartmentNumber'],
-      };
+      const residentchanged = fieldsValue as CreateOrUpdateResidentModel;
+
+      if (typeof fieldsValue.documentNumber === 'number') {
+        residentchanged.documentNumber = String(fieldsValue.documentNumber);
+      }
+
+      if (typeof fieldsValue.cellphone === 'number') {
+        residentchanged.cellphone = String(fieldsValue.cellphone);
+      }
 
       if (resident != undefined) {
         residentchanged.id = resident.id;
@@ -54,7 +60,7 @@ export default function ResidentForm({
           { max: 200 },
         ]}
       >
-        <Input placeholder="Ejemplo: Manuel" />
+        <Input placeholder="Ejemplo: Pepita Jimenez" />
       </Form.Item>
       <Form.Item
         name="apartmentNumber"
@@ -68,6 +74,47 @@ export default function ResidentForm({
         ]}
       >
         <Input placeholder="Ejemplo: Casa 28C" />
+      </Form.Item>
+      <Form.Item name="documentType" label="Tipo de Documento">
+        <Select
+          allowClear={true}
+          options={DocumentTypesOptions}
+          placeholder="Selecciona una opción"
+        />
+      </Form.Item>
+      <Form.Item name="documentNumber" label="Número de Documento">
+        <InputNumber
+          controls={false}
+          placeholder="Ingrese un número de documento"
+          style={{ width: '100%' }}
+        />
+      </Form.Item>
+      <Form.Item
+        name="email"
+        label="Correo"
+        rules={[
+          { type: 'email', message: 'Por favor ingrese un correo válido' },
+        ]}
+      >
+        <Input
+          placeholder="Ingrese un correo, ejemplo: pepito@midominio.com"
+          type="email"
+        />
+      </Form.Item>
+      <Form.Item name="cellphone" label="Celular">
+        <InputNumber
+          controls={false}
+          placeholder="Ingrese un número de celular"
+          type="tel"
+          style={{ width: '100%' }}
+        />
+      </Form.Item>
+      <Form.Item name="residentType" label="Tipo de Residente">
+        <Select
+          allowClear={true}
+          options={ResidentTypesOptions}
+          placeholder="Selecciona una opción"
+        />
       </Form.Item>
       {!hideSaveButon && (
         <Button type="primary" htmlType="submit">
