@@ -8,12 +8,11 @@ import { useVehicleEntryExitApi } from '@/hooks/use-vehicle-entry-exit-api';
 import {
   FilterVehicleEntryExitModel,
   VehicleEntryExitTableDataType,
-  VehicleEntryExitTableModel,
 } from '@/types/vehicle-entry-exit';
 import { getVehicleEntryExitTypeName } from '@/utils/get-vehicle-entry-exit-type-name';
 import { getVehicleTypeName } from '@/utils/get-vehicle-type-name';
-import { BookOutlined, SearchOutlined } from '@ant-design/icons';
-import { Button, Popover, Space } from 'antd';
+import { BookOutlined } from '@ant-design/icons';
+import { Popover } from 'antd';
 import dayjs from 'dayjs';
 import React, { useState } from 'react';
 
@@ -113,19 +112,11 @@ const VehicleEntryExitPage = () => {
       />
       <GenericPage
         columns={columnsConfig}
-        customTopButtons={
-          <Space wrap>
-            <Button type="primary" onClick={() => setShowCreationModal(true)}>
-              Nuevo registro
-            </Button>
-            <Button type="default" onClick={() => setOpenFilters(true)}>
-              Mostrar filtros
-            </Button>
-          </Space>
-        }
         data={data}
         loading={loading}
         title="Entrada y Salida de Vehículos"
+        onAddClick={() => setShowCreationModal(true)}
+        onFilterClick={() => setOpenFilters(true)}
       />
     </Authorize>
   );

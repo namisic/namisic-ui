@@ -6,24 +6,27 @@ import { ColumnConfig } from '@/configs/shared-config';
 import { RoleName } from '@/constants/auth';
 import Authorize from '@/components/auth/authorize';
 import useResidentsApi from '@/hooks/use-residents-api';
-import { ResidentTableDataType } from '@/types/resident-types';
+import {
+  GetResidentsQuery,
+  ResidentModelTableDataType,
+  ResidentTableDataType,
+} from '@/types/resident-types';
 import { notification } from 'antd';
 import Link from 'next/link';
 import { useCallback, useState } from 'react';
+import { FiltersPanel } from '@/components/residents/filters-panel';
+import { ResidentTypes } from '@/constants/residents-constants';
+import { DocumentTypes } from '@/constants/common-constants';
 
 export const ResidentsPage = () => {
   const residentsApi = useResidentsApi();
   const [data, setData] = useState<ResidentTableDataType[]>([]);
-  const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenCreationModal] = useState(false);
+  const [openFilters, setOpenFilters] = useState(false);
+  const [loading, setLoading] = useState(false);
   const getResidents = async () => {
     try {
-      const data = await residentsApi.getAll();
-      const residents = data.map<ResidentTableDataType>(
-        ({ id, name, apartmentNumber }) => {
-          return { id, name, apartmentNumber, key: id };
-        }
-      );
-      setData(residents);
+      await applyFilters({});
     } catch (error) {}
   };
   const deleteResident = useCallback(
@@ -40,11 +43,26 @@ export const ResidentsPage = () => {
     []
   );
 
-  const onAddClick = () => {
-    setOpenModal(true);
+  const applyFilters = async (filters: GetResidentsQuery) => {
+    setLoading(true);
+
+    try {
+      const data = await residentsApi.getAll(filters);
+      const dataMapped = data.map<ResidentModelTableDataType>((curr) => ({
+        ...curr,
+        key: curr.id,
+      }));
+
+      setData(dataMapped);
+    } catch (error) {
+      throw error;
+    } finally {
+      setLoading(false);
+    }
   };
+
   const onCloseModal = () => {
-    setOpenModal(false);
+    setOpenCreationModal(false);
     getResidents();
   };
 
@@ -63,6 +81,22 @@ export const ResidentsPage = () => {
     {
       title: 'Número de Casa/Apartamento',
       dataIndex: 'apartmentNumber',
+    },
+    {
+      title: 'Tipo de Residente',
+      dataIndex: 'residentType',
+      render: (value: keyof typeof ResidentTypes, record, index) =>
+        ResidentTypes[value],
+    },
+    {
+      title: 'Tipo de Documento',
+      dataIndex: 'documentType',
+      render: (value: keyof typeof DocumentTypes, record, index) =>
+        DocumentTypes[value],
+    },
+    {
+      title: 'Número de Documento',
+      dataIndex: 'documentNumber',
     },
     {
       title: 'Acciones',
@@ -89,11 +123,18 @@ export const ResidentsPage = () => {
       onAuthorized={onAuthorized}
     >
       <CreateResidentModal openModal={openModal} onClose={onCloseModal} />
+      <FiltersPanel
+        openFilters={openFilters}
+        onApplyFilters={applyFilters}
+        onClose={() => setOpenFilters(false)}
+      />
       <GenericPage
         columns={columnsConfig}
         data={data}
+        loading={loading}
         title="Residentes"
-        onAddClick={onAddClick}
+        onAddClick={() => setOpenCreationModal(true)}
+        onFilterClick={() => setOpenFilters(true)}
       />
     </Authorize>
   );

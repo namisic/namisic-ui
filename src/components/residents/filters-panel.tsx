@@ -1,22 +1,12 @@
-import dayjs from 'dayjs';
-import { VehicleEntryExitTypesOptions } from '@/constants/vehicle-entry-exit-constants';
-import { VehiclesTypesOptions } from '@/constants/vehicles-constants';
-import { FilterVehicleEntryExitModel } from '@/types/vehicle-entry-exit';
-import {
-  Button,
-  DatePicker,
-  Drawer,
-  Form,
-  Input,
-  Select,
-  Space,
-  Switch,
-} from 'antd';
+import { GetResidentsQuery } from '@/types/resident-types';
+import { Button, Drawer, Form, Input, InputNumber, Select, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
+import { DocumentTypesOptions } from '@/constants/common-constants';
+import { ResidentTypesOptions } from '@/constants/residents-constants';
 
 export interface FiltersPanelProps {
   openFilters: boolean;
-  onApplyFilters?: (filters: FilterVehicleEntryExitModel) => Promise<void>;
+  onApplyFilters?: (filters: GetResidentsQuery) => Promise<void>;
   onClose: () => void;
 }
 
@@ -25,10 +15,10 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({
   onApplyFilters,
   onClose,
 }) => {
-  const [formInstance] = Form.useForm<FilterVehicleEntryExitModel>();
+  const [formInstance] = Form.useForm<GetResidentsQuery>();
   const [isOpen, setIsOpen] = useState(false);
 
-  const onFinish = async (filters: FilterVehicleEntryExitModel) => {
+  const onFinish = async (filters: GetResidentsQuery) => {
     try {
       if (onApplyFilters !== undefined) {
         await onApplyFilters(filters);
@@ -45,11 +35,6 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({
 
   const resetForm = () => {
     formInstance.resetFields();
-    formInstance.setFieldValue(
-      'beginCreationDate',
-      dayjs().subtract(1, 'week').startOf('day')
-    );
-    formInstance.setFieldValue('currentUser', false);
   };
 
   useEffect(() => {
@@ -74,39 +59,43 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({
         form={formInstance}
         style={{ maxWidth: 600 }}
       >
-        <Form.Item
-          name="plateNumber"
-          label="Número de Placa"
-          rules={[{ max: 8, message: 'Este campo admite hasta 8 caracteres' }]}
-        >
-          <Input placeholder="Ejemplo: ABC-123" />
+        <Form.Item name="name" label="Nombre">
+          <Input placeholder="Ingrese nombre del residente" />
         </Form.Item>
-        <Form.Item name="type" label="Tipo de Registro">
+        <Form.Item name="documentType" label="Tipo de Documento">
           <Select
             allowClear={true}
-            options={VehicleEntryExitTypesOptions}
+            options={DocumentTypesOptions}
             placeholder="Selecciona una opción"
           />
         </Form.Item>
-        <Form.Item name="vehicleType" label="Tipo de Vehículo">
+        <Form.Item name="documentNumber" label="Número de Documento">
+          <InputNumber
+            controls={false}
+            placeholder="Ingrese un número de documento"
+            style={{width: '100%'}}
+          />
+        </Form.Item>
+        <Form.Item name="email" label="Correo">
+          <Input placeholder="Ingrese un correo, ejemplo: pepito@midominio.com" />
+        </Form.Item>
+        <Form.Item name="cellphone" label="Celular">
+          <InputNumber
+            controls={false}
+            placeholder="Ingrese un número de celular"
+            type="tel"
+            style={{width: '100%'}}
+          />
+        </Form.Item>
+        <Form.Item name="residentType" label="Tipo de Residente">
           <Select
             allowClear={true}
-            options={VehiclesTypesOptions}
+            options={ResidentTypesOptions}
             placeholder="Selecciona una opción"
           />
         </Form.Item>
-        <Form.Item name="beginCreationDate" label="Desde">
-          <DatePicker showTime />
-        </Form.Item>
-        <Form.Item name="endCreationDate" label="Hasta">
-          <DatePicker showTime />
-        </Form.Item>
-        <Form.Item
-          name="currentUser"
-          label="Mostrar solo mis registros"
-          valuePropName="checked"
-        >
-          <Switch />
+        <Form.Item name="apartmentNumber" label="Número de Casa/Apartamento">
+          <Input placeholder="Ingrese un número de casa o apartamento" />
         </Form.Item>
         <Space wrap>
           <Button type="default" htmlType="button" onClick={() => resetForm()}>
