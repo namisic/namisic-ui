@@ -14,25 +14,29 @@ export const MainNavbar = () => {
   const router = useRouter();
   const session = useSession();
   const [collapsed, setCollapsed] = useState(false);
-
+ 
   const menuItems: MenuProps['items'] = [
     getMenuItem(
       collapsed ? 'Mostrar menú' : 'Cerrar menú',
       'collapser',
       <MenuOutlined />
     ),
+   
     getMenuItem('Administración', 'management', <ApartmentOutlined />, [
       getMenuItem('Residentes', 'residents', null),
     ]),
     { type: 'divider' },
     getMenuItem('Seguridad', 'security', <SafetyOutlined />, [
-      getMenuItem('Entrada/Salida de Vehículos', 'vehicle-entry-exit', null),
+      getMenuItem('Entrada/Salida de Vehículos', 'io-vehicles', null),
     ]),
   ];
 
   if (session.status === 'authenticated') {
     menuItems.push(
-      getMenuItem('Cerrar Sesión', 'signout', <PoweroffOutlined />)
+      { type: 'divider' },
+      { type: 'divider' },
+      getMenuItem('Cerrar cesión', 'sign-out', <PoweroffOutlined />),
+      getMenuItem("Hola, " + session.data.user.name  , "username"),
     );
   }
 
@@ -42,10 +46,11 @@ export const MainNavbar = () => {
       case 'collapser':
         setCollapsed((currentValue) => !currentValue);
         break;
-      case 'signout':
+      case 'sign-out':
         signOut();
         break;
-
+      case 'username':
+        break;
       default:
         router.push(`/${e.key}`);
         break;
@@ -58,7 +63,7 @@ export const MainNavbar = () => {
       defaultSelectedKeys={['1']}
       defaultOpenKeys={['sub1']}
       inlineCollapsed={collapsed}
-      mode="vertical"
+      mode="inline"
       items={menuItems}
       theme="dark"
     />
