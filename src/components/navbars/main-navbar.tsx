@@ -35,6 +35,7 @@ export const MainNavbar = () => {
     menuItems.push(
       { type: 'divider' },
       { type: 'divider' },
+      { type: 'divider' },
       getMenuItem('Cerrar cesión', 'sign-out', <PoweroffOutlined />),
       getMenuItem("Hola, " + session.data.user.name  , "username"),
     );
