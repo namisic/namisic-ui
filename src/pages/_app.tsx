@@ -1,7 +1,8 @@
 import '@/styles/globals.css';
+import '@/styles/ant.css';
+
 import type { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
-import { MainLayout } from '../components/layouts/main-layout';
 import { useEffect, useState } from 'react';
 import {
   ApiConfig,
@@ -33,11 +34,9 @@ export default function App({
 
   return (
     <SessionProvider session={session}>
-      <MainLayout>
-        <ApiConfigContext.Provider value={apiConfig}>
-          <Component {...pageProps} />
-        </ApiConfigContext.Provider>
-      </MainLayout>
+      <ApiConfigContext.Provider value={apiConfig}>
+        <Component {...pageProps} />
+      </ApiConfigContext.Provider>
     </SessionProvider>
   );
 }
