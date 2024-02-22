@@ -10,7 +10,7 @@ const UnauthorizedPage = () => {
       title="Sin autorización"
       subTitle="Lo sentimos, pero no cuenta con autorización para acceder al recurso."
       extra={
-        <Button type="primary" onClick={() => router.replace('/')}>
+        <Button type="primary" onClick={() => router.replace('/dashboard')}>
           Ir al inicio
         </Button>
       }

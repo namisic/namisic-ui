@@ -1,12 +1,9 @@
 import Authorize from '@/components/auth/authorize';
-import { MainLayout } from '@/components/layouts/main-layout';
 
 const Dashboard = () => {
   return (
     <Authorize>
-      <MainLayout>
-        <div>Este es el dashboard :)</div>
-      </MainLayout>
+      <div>Este es el dashboard :)</div>
     </Authorize>
   );
 };

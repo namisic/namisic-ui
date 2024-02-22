@@ -11,6 +11,7 @@ import {
 } from '@/contexts/api-config-context';
 import { ConfigResponse } from '@/types/config-response';
 import axios from 'axios';
+import { MainLayout } from '@/components/layouts/main-layout';
 
 export default function App({
   Component,
@@ -34,9 +35,11 @@ export default function App({
 
   return (
     <SessionProvider session={session}>
-      <ApiConfigContext.Provider value={apiConfig}>
-        <Component {...pageProps} />
-      </ApiConfigContext.Provider>
+      <MainLayout>
+        <ApiConfigContext.Provider value={apiConfig}>
+          <Component {...pageProps} />
+        </ApiConfigContext.Provider>
+      </MainLayout>
     </SessionProvider>
   );
 }
