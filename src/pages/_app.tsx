@@ -35,11 +35,11 @@ export default function App({
 
   return (
     <SessionProvider session={session}>
-      <MainLayout>
-        <ApiConfigContext.Provider value={apiConfig}>
+      <ApiConfigContext.Provider value={apiConfig}>
+        <MainLayout>
           <Component {...pageProps} />
-        </ApiConfigContext.Provider>
-      </MainLayout>
+        </MainLayout>
+      </ApiConfigContext.Provider>
     </SessionProvider>
   );
 }
