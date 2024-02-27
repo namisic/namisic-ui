@@ -1,6 +1,5 @@
 import ColumnActionDelete from '@/components/column-actions/column-action-delete';
 import ColumnActionSplitted from '@/components/column-actions/column-actions-splitted';
-import GenericPage from '@/components/generic-page';
 import CreateResidentModal from '@/components/residents/create-resident-modal';
 import { ColumnConfig } from '@/configs/shared-config';
 import { RoleName } from '@/constants/auth';
@@ -17,8 +16,14 @@ import { useCallback, useState } from 'react';
 import { FiltersPanel } from '@/components/residents/filters-panel';
 import { ResidentTypes } from '@/constants/residents-constants';
 import { DocumentTypes } from '@/constants/common-constants';
+import Page from '@/components/common/page';
+import useGeneralSettings from '@/hooks/use-general-settings';
+import Head from 'next/head';
+
+const pageTitle = 'Residentes';
 
 export const ResidentsPage = () => {
+  const { generalSettings } = useGeneralSettings();
   const residentsApi = useResidentsApi();
   const [data, setData] = useState<ResidentTableDataType[]>([]);
   const [openModal, setOpenCreationModal] = useState(false);
@@ -122,17 +127,22 @@ export const ResidentsPage = () => {
       redirectWhenUnauthorized
       onAuthorized={onAuthorized}
     >
+      <Head>
+        <title>
+          {pageTitle} - {generalSettings?.condominiumName}
+        </title>
+      </Head>
       <CreateResidentModal openModal={openModal} onClose={onCloseModal} />
       <FiltersPanel
         openFilters={openFilters}
         onApplyFilters={applyFilters}
         onClose={() => setOpenFilters(false)}
       />
-      <GenericPage
+      <Page
         columns={columnsConfig}
         data={data}
         loading={loading}
-        title="Residentes"
+        title={pageTitle}
         onAddClick={() => setOpenCreationModal(true)}
         onFilterClick={() => setOpenFilters(true)}
       />

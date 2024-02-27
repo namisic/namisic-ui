@@ -2,6 +2,7 @@ import { Button, Space, Table } from 'antd';
 import { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import { ColumnConfig } from '@/configs/shared-config';
 import { ReactNode } from 'react';
+import PageTitle from './page-title';
 
 export interface GenericPageProps {
   title?: string;
@@ -14,7 +15,7 @@ export interface GenericPageProps {
   onFilterClick?: () => void;
 }
 
-const GenericPage: React.FC<GenericPageProps> = ({
+const Page: React.FC<GenericPageProps> = ({
   columns,
   customTopButtons,
   data,
@@ -26,9 +27,7 @@ const GenericPage: React.FC<GenericPageProps> = ({
 }) => {
   return (
     <article>
-      {typeof title === 'string' && (
-        <h1 className="text-xl font-bold mb-4 mt-0 font-sans">{title}</h1>
-      )}
+      <PageTitle title={title} />
       {customTopButtons !== undefined ? (
         customTopButtons
       ) : (
@@ -52,4 +51,4 @@ const GenericPage: React.FC<GenericPageProps> = ({
   );
 };
 
-export default GenericPage;
+export default Page;

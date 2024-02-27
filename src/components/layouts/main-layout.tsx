@@ -7,6 +7,7 @@ import {
   HomeOutlined,
   PoweroffOutlined,
   SafetyOutlined,
+  SettingOutlined,
 } from '@ant-design/icons';
 import useAuthorize from '@/hooks/use-authorize';
 import { RoleName } from '@/constants/auth';
@@ -25,6 +26,13 @@ const allMenuItems = [
     RoleName.Administrator,
     <ApartmentOutlined />,
     [getMenuItem('Residentes', 'residents', null)]
+  ),
+  getMenuItem(
+    'Configuración',
+    'config',
+    RoleName.Administrator,
+    <SettingOutlined />,
+    [getMenuItem('General', 'general-settings', null)]
   ),
   getMenuItem(
     'Seguridad',

@@ -1,9 +1,10 @@
 import Authorize from '@/components/auth/authorize';
-import GenericPage from '@/components/generic-page';
+import Page from '@/components/common/page';
 import CreateVehicleEntryExitModal from '@/components/vehicle-entry-exit/create-modal';
 import { FiltersPanel } from '@/components/vehicle-entry-exit/filters-panel';
 import { ColumnConfig } from '@/configs/shared-config';
 import { RoleName } from '@/constants/auth';
+import useGeneralSettings from '@/hooks/use-general-settings';
 import { useVehicleEntryExitApi } from '@/hooks/use-vehicle-entry-exit-api';
 import {
   FilterVehicleEntryExitModel,
@@ -14,9 +15,13 @@ import { getVehicleTypeName } from '@/utils/get-vehicle-type-name';
 import { BookOutlined } from '@ant-design/icons';
 import { Popover } from 'antd';
 import dayjs from 'dayjs';
+import Head from 'next/head';
 import React, { useState } from 'react';
 
+const pageTitle = 'Entrada y Salida de Vehículos';
+
 const VehicleEntryExitPage = () => {
+  const { generalSettings } = useGeneralSettings();
   const [showCreationModal, setShowCreationModal] = useState(false);
   const [openFilters, setOpenFilters] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -101,6 +106,11 @@ const VehicleEntryExitPage = () => {
       redirectWhenUnauthorized
       onAuthorized={onAuthorized}
     >
+      <Head>
+        <title>
+          {pageTitle} - {generalSettings?.condominiumName}
+        </title>
+      </Head>
       <CreateVehicleEntryExitModal
         openModal={showCreationModal}
         onClose={() => setShowCreationModal(false)}
@@ -110,11 +120,11 @@ const VehicleEntryExitPage = () => {
         onApplyFilters={onApplyFilters}
         onClose={() => setOpenFilters(false)}
       />
-      <GenericPage
+      <Page
         columns={columnsConfig}
         data={data}
         loading={loading}
-        title="Entrada y Salida de Vehículos"
+        title={pageTitle}
         onAddClick={() => setShowCreationModal(true)}
         onFilterClick={() => setOpenFilters(true)}
       />

@@ -3,7 +3,7 @@ import useVehiclesApi from '@/hooks/use-vehicles-api';
 import { VehicleTableDataType } from '@/types/vehicle-types';
 import React, { useCallback, useEffect, useState } from 'react';
 
-import GenericPage from '../generic-page';
+import Page from '../common/page';
 import CreateVehicleModal from './create-vehicle-modal';
 import ColumnActionSplitted from '../column-actions/column-actions-splitted';
 import ColumnActionDelete from '../column-actions/column-action-delete';
@@ -99,11 +99,7 @@ const VehiclesTab: React.FC<VehiclesTabProps> = ({ residentId }) => {
         residentId={residentId}
         onClose={onCloseModal}
       />
-      <GenericPage
-        columns={columnsConfig}
-        data={data}
-        onAddClick={onAddClick}
-      />
+      <Page columns={columnsConfig} data={data} onAddClick={onAddClick} />
     </>
   );
 };

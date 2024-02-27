@@ -1,7 +1,10 @@
 import { useContext } from 'react';
 import { useAxios } from './use-axios';
 import { ApiConfigContext } from '@/contexts/api-config-context';
-import { GetGeneralSettingsResponse } from '@/types/general-settings-types';
+import {
+  GetGeneralSettingsResponse,
+  UpdateGeneralSettingsRequest,
+} from '@/types/general-settings-types';
 import {
   add,
   formatISO,
@@ -11,12 +14,15 @@ import {
   setSeconds,
 } from 'date-fns';
 
+const nextTimeKey = 'nextTimeToGetGeneralSettings';
+const generalSettingsKey = 'generalSettings';
+const generateNextTime = () =>
+  formatISO(setMilliseconds(setSeconds(add(new Date(), { days: 1 }), 0), 0));
+
 const useGeneralSettingsApi = () => {
   const { getAxiosInstance } = useAxios();
   const apiConfig = useContext(ApiConfigContext);
   const baseUrl = `${apiConfig.config?.ApiUri}/api/GeneralSettings`;
-  const nextTimeKey = 'nextTimeToGetGeneralSettings';
-  const generalSettingsKey = 'generalSettings';
 
   return {
     getGeneralSettings: async (
@@ -39,15 +45,20 @@ const useGeneralSettingsApi = () => {
         baseUrl
       );
 
-      const nextTime = setMilliseconds(
-        setSeconds(add(new Date(), { days: 1 }), 0),
-        0
-      );
+      const nextTime = generateNextTime();
 
       localStorage.setItem(generalSettingsKey, JSON.stringify(data));
-      localStorage.setItem(nextTimeKey, formatISO(nextTime));
+      localStorage.setItem(nextTimeKey, nextTime);
 
       return data;
+    },
+    updateGeneralSettings: async (
+      data: UpdateGeneralSettingsRequest
+    ): Promise<void> => {
+      await getAxiosInstance().put(baseUrl, data);
+      const nextTime = generateNextTime();
+      localStorage.setItem(generalSettingsKey, JSON.stringify(data));
+      localStorage.setItem(nextTimeKey, nextTime);
     },
   };
 };
