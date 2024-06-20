@@ -4,6 +4,7 @@ import { AuthOptions } from 'next-auth';
 import NextAuth from 'next-auth/next';
 
 export const authOptions: AuthOptions = {
+  debug: process.env.NODE_ENV !== 'production',
   callbacks: {
     async jwt({ token, account }) {
       // Persist the OAuth access_token to the token right after signin
