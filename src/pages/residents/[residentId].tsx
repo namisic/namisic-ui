@@ -19,19 +19,18 @@ export function ResidentDetails({
 }: ResidentDetailsProps) {
   const router = useRouter();
   const { generalSettings } = useGeneralSettings();
-  const { id } = router.query;
-  const residentId = id as string;
+  const { residentId } = router.query;
 
   let items: TabsProps['items'] = [
     {
       key: '1',
       label: `Información`,
-      children: <ResidentInformationTab residentId={residentId} />,
+      children: <ResidentInformationTab residentId={residentId as string} />,
     },
     {
       key: '2',
       label: `Vehículos`,
-      children: <VehiclesTab residentId={residentId} />,
+      children: <VehiclesTab residentId={residentId as string} />,
     },
   ];
 

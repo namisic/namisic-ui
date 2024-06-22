@@ -103,7 +103,7 @@ const VehiclesTab: React.FC<VehiclesTabProps> = ({ residentId }) => {
         columns={columnsConfig}
         data={data}
         onAddClick={onAddClick}
-        showFilters={false}
+        hideFilters
       />
     </>
   );

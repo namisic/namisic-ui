@@ -7,17 +7,18 @@ export interface VehicleFormProps {
   formInstance: FormInstance;
   vehicle?: CreateOrUpdateVehicleModel;
   hideSaveButon?: true;
+  loading?: boolean;
   onSaveClick?: (vehicle: CreateOrUpdateVehicleModel) => Promise<void>;
 }
 
 const VehicleForm: React.FC<VehicleFormProps> = ({
   formInstance,
   hideSaveButon,
-  onSaveClick,
+  loading,
   vehicle,
+  onSaveClick,
 }) => {
   const onFinish = async (fieldsValue: any) => {
-    
     if (onSaveClick !== undefined) {
       const vehicleToSave: CreateOrUpdateVehicleModel = {
         ...fieldsValue,
@@ -45,16 +46,18 @@ const VehicleForm: React.FC<VehicleFormProps> = ({
       onFinish={onFinish}
       form={formInstance}
       style={{ maxWidth: 600 }}
+      disabled={loading}
     >
-      
-        <Form.Item
-          hidden
-          name="residentId"
-          rules={[{ required: true, message: 'La Placa es obligatoria' }]}
-        >
-          <Input />
-        </Form.Item>
-      
+      <Form.Item
+        hidden
+        name="residentId"
+        rules={[
+          { required: true, message: 'El Id del residente es obligatorio' },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+
       <Form.Item
         name="plateNumber"
         label="Placa"
@@ -65,6 +68,7 @@ const VehicleForm: React.FC<VehicleFormProps> = ({
       >
         <Input placeholder="Ejemplo: ABC-123" />
       </Form.Item>
+
       <Form.Item
         name="type"
         label="Tipo de Vehículo"
@@ -80,6 +84,7 @@ const VehicleForm: React.FC<VehicleFormProps> = ({
           placeholder="Selecciona una opción"
         />
       </Form.Item>
+
       {!hideSaveButon && (
         <Button type="primary" htmlType="submit">
           Guardar

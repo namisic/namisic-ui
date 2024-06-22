@@ -19,31 +19,42 @@ export function VehicleDetails({}: VehicleDetailsProps) {
   const vehiclesApi = useVehiclesApi();
   const router = useRouter();
   const [formInstance] = Form.useForm();
-  const { vehicleid } = router.query;
-  const plate = vehicleid as string;
-  const [data, setData] = useState<CreateOrUpdateVehicleModel>();
+  const { plate, residentId } = router.query;
+  const [vehicle, setVehicle] = useState<CreateOrUpdateVehicleModel>();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getVehicle();
-  }, []);
+  }, [plate]);
 
   const getVehicle = async () => {
     if (plate !== undefined) {
-      const data = await vehiclesApi.getbyplateNumber(plate);
-      const vehicles = data;
-      setData(vehicles);
+      try {
+        setLoading(true);
+        const data = await vehiclesApi.getbyplateNumber(plate as string);
+        data.residentId = residentId as string;
+        data.initialPlateNumber = plate as string;
+        setVehicle(data);
+      } catch (error) {
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
   const onSaveClick = async (vehicle: CreateOrUpdateVehicleModel) => {
     try {
-      vehicle.initialPlateNumber = plate;
+      setLoading(true);
       await vehiclesApi.update(vehicle);
       notification.success({
         description: `El vehículo con placa '${vehicle.plateNumber}' fue actualizado.`,
         message: 'Operación realizada correctamente',
       });
-    } catch (error) {}
+      setVehicle({ ...vehicle, initialPlateNumber: vehicle.plateNumber });
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -56,9 +67,9 @@ export function VehicleDetails({}: VehicleDetailsProps) {
       <PageTitle title={pageTitle} />
       <VehicleForm
         formInstance={formInstance}
+        loading={loading}
+        vehicle={vehicle}
         onSaveClick={onSaveClick}
-        vehicle={data}
-        hideSaveButon={undefined}
       />
     </Authorize>
   );
