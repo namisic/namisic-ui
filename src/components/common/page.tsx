@@ -11,6 +11,7 @@ export interface GenericPageProps {
   paginationConfig?: false | TablePaginationConfig;
   customTopButtons?: ReactNode;
   loading?: boolean;
+  showFilters?: boolean;
   onAddClick?: () => void;
   onFilterClick?: () => void;
 }
@@ -22,6 +23,7 @@ const Page: React.FC<GenericPageProps> = ({
   paginationConfig = false,
   title,
   loading,
+  showFilters = true,
   onAddClick,
   onFilterClick,
 }) => {
@@ -35,9 +37,11 @@ const Page: React.FC<GenericPageProps> = ({
           <Button type="primary" onClick={onAddClick}>
             Nuevo registro
           </Button>
-          <Button type="default" onClick={onFilterClick}>
-            Mostrar filtros
-          </Button>
+          {showFilters ? (
+            <Button type="default" onClick={onFilterClick}>
+              Mostrar filtros
+            </Button>
+          ) : null}
         </Space>
       )}
       <Table

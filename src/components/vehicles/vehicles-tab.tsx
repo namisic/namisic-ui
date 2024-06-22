@@ -99,7 +99,12 @@ const VehiclesTab: React.FC<VehiclesTabProps> = ({ residentId }) => {
         residentId={residentId}
         onClose={onCloseModal}
       />
-      <Page columns={columnsConfig} data={data} onAddClick={onAddClick} />
+      <Page
+        columns={columnsConfig}
+        data={data}
+        onAddClick={onAddClick}
+        showFilters={false}
+      />
     </>
   );
 };
