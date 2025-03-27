@@ -81,7 +81,7 @@ export default function Home() {
         <Image
           src={
             generalSettings?.homePageBackgroundImagePath ||
-            '/img/home_default.jpg'
+            '/images/default_home.jpg'
           }
           alt="Casa"
           height={1024}

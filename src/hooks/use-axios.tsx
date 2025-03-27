@@ -11,7 +11,7 @@ type AxiosErrorConfig = {
 
 const showErrorFromServer = async (error: AxiosError) => {
   const response = error.response?.data as ServerError;
-  const errorText = response.detail || response.title;
+  const errorText = response?.detail || response?.title || 'Error';
   Modal.error({
     content: errorText,
     title: 'Oops!, algo salió mal',
