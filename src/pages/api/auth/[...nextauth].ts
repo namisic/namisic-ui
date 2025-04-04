@@ -13,7 +13,7 @@ export const authOptions: AuthOptions = {
       }
       return token;
     },
-    async session({ session, token, user }) {
+    /*async session({ session, token, user }) {
       // Send properties to the client, like an access_token from a provider.
       session.accessToken = token.accessToken;
 
@@ -27,10 +27,12 @@ export const authOptions: AuthOptions = {
           }
         );
         session.user = userinfo;
-      } catch (error) {}
+      } catch (error) {
+        console.log('error en session', error);
+      }
 
       return session;
-    },
+    },*/
   },
   providers: [
     {
@@ -39,10 +41,9 @@ export const authOptions: AuthOptions = {
       type: 'oauth',
       clientId: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
+      client: { token_endpoint_auth_method: 'client_secret_post' },
       wellKnown: `${process.env.SIDSERVER_URL}/.well-known/openid-configuration`,
-      authorization: {
-        params: { scope: process.env.SCOPE },
-      },
+      authorization: { params: { scope: process.env.SCOPE } },
       checks: ['pkce', 'state'],
       idToken: true,
       profile(profile) {
