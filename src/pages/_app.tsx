@@ -1,6 +1,9 @@
 import '@/styles/globals.css';
 import '@/styles/ant.css';
 
+// TODO Eliminar cuando Ant Design sea compatible con React 19.
+import '@ant-design/v5-patch-for-react-19';
+
 import type { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
 import { useEffect, useState } from 'react';
