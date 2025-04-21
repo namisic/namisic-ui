@@ -27,7 +27,7 @@ export default function Home() {
   }, [configRequested]);
 
   return (
-    <div className="md:flex md:flex-row h-screen relative md:w-screen">
+    <div className="md:flex md:flex-row h-screen relative md:w-screen text-black">
       <Head>
         <title>Inicio - {generalSettings?.condominiumName}</title>
       </Head>
