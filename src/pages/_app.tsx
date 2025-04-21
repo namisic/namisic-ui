@@ -42,7 +42,7 @@ export default function App({
           configRequested: true,
           config: data,
         });
-      } catch (error) { }
+      } catch (error) {}
     };
 
     getConfig();

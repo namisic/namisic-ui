@@ -1,3 +1,5 @@
+'use client';
+
 import Authorize from '@/components/auth/authorize';
 import Page from '@/components/common/page';
 import CreateVehicleEntryExitModal from '@/components/vehicle-entry-exit/create-modal';

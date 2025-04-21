@@ -24,7 +24,7 @@ const ResidentInformationTab: React.FC<ResidentInformationTabProps> = ({
       setResident(resident);
     }
   };
-  
+
   const onSaveClick = async (
     resident: CreateOrUpdateResidentModel
   ): Promise<void> => {

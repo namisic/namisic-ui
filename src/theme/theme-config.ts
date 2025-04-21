@@ -5,8 +5,8 @@ const theme: ThemeConfig = {
   components: {
     Menu: {
       darkItemBg: '#240a34',
-          itemSelectedColor: '#fff',
-      controlHeight: 600
+      itemSelectedColor: '#fff',
+      controlHeight: 600,
     },
   },
   token: {

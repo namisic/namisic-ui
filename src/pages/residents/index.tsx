@@ -1,3 +1,5 @@
+'use client';
+
 import ColumnActionDelete from '@/components/column-actions/column-action-delete';
 import ColumnActionSplitted from '@/components/column-actions/column-actions-splitted';
 import CreateResidentModal from '@/components/residents/create-resident-modal';

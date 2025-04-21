@@ -1,3 +1,5 @@
+'use client';
+
 import { ApiConfigContext } from '@/contexts/api-config-context';
 import useGeneralSettingsApi from '@/hooks/use-general-settings-api';
 import { GetGeneralSettingsResponse } from '@/types/general-settings-types';

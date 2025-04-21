@@ -73,7 +73,7 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({
           <InputNumber
             controls={false}
             placeholder="Ingrese un número de documento"
-            style={{width: '100%'}}
+            style={{ width: '100%' }}
           />
         </Form.Item>
         <Form.Item name="email" label="Correo">
@@ -84,7 +84,7 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({
             controls={false}
             placeholder="Ingrese un número de celular"
             type="tel"
-            style={{width: '100%'}}
+            style={{ width: '100%' }}
           />
         </Form.Item>
         <Form.Item name="residentType" label="Tipo de Residente">

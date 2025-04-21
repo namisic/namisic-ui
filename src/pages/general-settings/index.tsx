@@ -1,3 +1,5 @@
+'use client';
+
 import Authorize from '@/components/auth/authorize';
 import PageTitle from '@/components/common/page-title';
 import GeneralSettingsForm from '@/components/general-settings/general-settings-form';
